@@ -27,25 +27,28 @@ export default {
     navigateSideBar
   },
   beforeRouteLeave(to, from, next) {
-    this.$confirm("将返回欢迎界面, 是否继续?", "提示", {
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
-      type: "warning"
-    })
-      .then(() => {
-        next();
-        this.$message({
-          type: "success",
-          message: "已返回!"
-        });
+    if (to.path === "/") {
+      this.$confirm("将返回欢迎界面, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       })
-      .catch(() => {
-        next(false);
-        this.$message({
-          type: "info",
-          message: "已取消返回"
+        .then(() => {
+          next();
+          this.$message({
+            type: "success",
+            message: "已返回!"
+          });
+        })
+        .catch(() => {
+          next(false);
+          this.$message({
+            type: "info",
+            message: "已取消返回"
+          });
         });
-      });
+    }
+    else next();
   },
   methods: {
     backConfirm() {
